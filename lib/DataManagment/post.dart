@@ -1,12 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class Post {
   String? postID;
   String? name;
   String? uid;
   String? imgPath;
-  CollectionReference<Map<String, dynamic>>? likes;
-  int? numberOfLike;
+  Map<String, bool> likes = {};
   DateTime? shareTime;
   String? description;
   List? comments;
@@ -14,10 +11,9 @@ class Post {
 
   Post({
     this.isLike,
-    this.numberOfLike,
     this.postID,
     this.uid,
-    this.likes,
+    likes,
     this.imgPath,
     this.comments,
     this.description,

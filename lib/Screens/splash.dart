@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:socialapp/AuthController/authController.dart';
-import 'package:socialapp/DataManagment/dataController.dart';
 
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);

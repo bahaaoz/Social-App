@@ -1,14 +1,12 @@
-import 'package:camera/camera.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:socialapp/AuthController/authController.dart';
 import 'package:socialapp/DataManagment/dataController.dart';
+import 'package:socialapp/DataManagment/dataControllerProfile.dart';
 import 'package:socialapp/Localization/localeController.dart';
 import 'package:socialapp/Localization/myLocale.dart';
-import 'package:socialapp/Screens/createPost.dart';
 import 'package:socialapp/Screens/home.dart';
 import 'package:socialapp/Screens/profile.dart';
 import 'package:socialapp/Screens/settings.dart';
@@ -41,10 +39,10 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => DataController(),
+          create: (context) => ThemeController(),
         ),
         ChangeNotifierProvider(
-          create: (context) => ThemeController(),
+          create: (context) => DataController(),
         ),
       ],
       child: Consumer<ThemeController>(

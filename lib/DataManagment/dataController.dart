@@ -17,22 +17,24 @@ class DataController extends ChangeNotifier {
 
     postList.addAll(tempList);
 
-    print(postList.length);
     notifyListeners();
   }
 
-  Future<void> addLike(int index, String postId, String userId) async {
-    await firebaseManager.addLike(postId, userId);
-    postList[index].isLike = true;
-    postList[index].numberOfLike = (postList[index].numberOfLike! + 1);
+  Future<void> manageLike(bool like, Post post) async {
+    print(like);
+    if (like) {
+      await _addLike(post);
+    } else {
+     await _removeLike(post);
+    }
     notifyListeners();
   }
 
-  Future<void> removeLike(int index, String postId, String userId) async {
-    await firebaseManager.removeLike(postId, userId);
-    postList[index].numberOfLike = (postList[index].numberOfLike! - 1);
+  Future<void> _addLike(Post post) async {
+    await firebaseManager.addLike(post);
+  }
 
-    postList[index].isLike = false;
-    notifyListeners();
+  Future<void> _removeLike(Post post) async {
+    await firebaseManager.removeLike(post);
   }
 }

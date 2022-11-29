@@ -3,11 +3,11 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:socialapp/AuthController/authController.dart';
 import 'package:socialapp/CustomMaterial/bottomNavbar.dart';
 import 'package:socialapp/DataManagment/dataController.dart';
+import 'package:socialapp/DataManagment/dataControllerProfile.dart';
 
 import '../CustomMaterial/top_appbar.dart';
 
@@ -50,9 +50,10 @@ class _HomeState extends State<Home> {
                               width: 60,
                               decoration: BoxDecoration(
                                 border: Border.all(
-                                    width: 1,
-                                    color: const Color.fromARGB(
-                                        107, 180, 180, 180)),
+                                  width: 1,
+                                  color:
+                                      const Color.fromARGB(107, 180, 180, 180),
+                                ),
                                 shape: BoxShape.circle,
                               ),
                             );
@@ -100,23 +101,26 @@ class _HomeState extends State<Home> {
                           children: [
                             IconButton(
                               onPressed: () async {
-                                if (dataController
-                                    .postList[goodIndex].isLike!) {
-                                  await dataController.addLike(
-                                      goodIndex,
-                                      dataController
-                                          .postList[goodIndex].postID!,
-                                      authController.uid.toString());
-                                } else {
-                                  await dataController.removeLike(
-                                      goodIndex,
-                                      dataController
-                                          .postList[goodIndex].postID!,
-                                      authController.uid.toString());
-                                }
+                                setState(() {
+                                  dataController.postList[goodIndex].isLike =
+                                      !dataController
+                                          .postList[goodIndex].isLike!;
+                                });
+                                await dataController.manageLike(
+                                  dataController.postList[goodIndex].isLike!,
+                                  dataController.postList[goodIndex],
+                                );
                               },
-                              icon: const Icon(
-                                FontAwesomeIcons.heart,
+                              icon: Icon(
+                                dataController.postList[goodIndex].isLike ??
+                                        false
+                                    ? FontAwesomeIcons.solidHeart
+                                    : FontAwesomeIcons.heart,
+                                color:
+                                    dataController.postList[goodIndex].isLike ??
+                                            false
+                                        ? Colors.red
+                                        : Colors.white,
                               ),
                             ),
                             IconButton(
@@ -147,7 +151,7 @@ class _HomeState extends State<Home> {
                               width: 10,
                             ),
                             Text(
-                              ("${dataController.postList[goodIndex].numberOfLike} ${"likes".tr}"),
+                              ("${dataController.postList[goodIndex].likes.length} ${"likes".tr}"),
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),

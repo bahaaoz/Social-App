@@ -10,7 +10,7 @@ class MyLocale extends Translations {
         "Theme": "Theme",
         "Languge": "Languge",
         "Setting": "Setting",
-        "likes": "likes",
+        "likes": "like",
         "View All comments": "View All comments",
         "email": "email",
         "password": "password",
