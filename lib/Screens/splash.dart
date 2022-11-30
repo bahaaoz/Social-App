@@ -19,7 +19,7 @@ class _SplashState extends State<Splash> {
   routPage() async {
     bool k = await authController.checkSignIn();
     if (k) {
-      Navigator.of(context).pushReplacementNamed("/home");
+      Navigator.of(context).pushReplacementNamed("/screenManager");
     } else {
       Navigator.of(context).pushReplacementNamed("/signin");
     }

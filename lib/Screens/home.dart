@@ -1,18 +1,15 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:socialapp/AuthController/authController.dart';
-import 'package:socialapp/CustomMaterial/bottomNavbar.dart';
 import 'package:socialapp/DataManagment/dataController.dart';
-import 'package:socialapp/DataManagment/dataControllerProfile.dart';
 
 import '../CustomMaterial/top_appbar.dart';
 
 class Home extends StatefulWidget {
-  Home({Key? key}) : super(key: key);
+  const Home({Key? key}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
@@ -25,7 +22,6 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: topAppBar(),
-      bottomNavigationBar: const BottomNavbar(),
       body: Column(children: [
         Expanded(
           child: Consumer<DataController>(
@@ -91,11 +87,16 @@ class _HomeState extends State<Home> {
                         ),
                         ConstrainedBox(
                           constraints: const BoxConstraints(
-                            maxHeight: 450,
+                            maxHeight: 500,
                             minHeight: 400,
                           ),
-                          child: Image.network(
-                              dataController.postList[goodIndex].imgPath!),
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: Image.network(
+                              dataController.postList[goodIndex].imgPath!,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                         ),
                         Row(
                           children: [
@@ -120,7 +121,7 @@ class _HomeState extends State<Home> {
                                     dataController.postList[goodIndex].isLike ??
                                             false
                                         ? Colors.red
-                                        : Colors.white,
+                                        : null,
                               ),
                             ),
                             IconButton(
@@ -144,27 +145,34 @@ class _HomeState extends State<Home> {
                             ),
                           ],
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Row(
                           children: [
                             const SizedBox(
                               width: 10,
                             ),
-                            Text(
-                              ("${dataController.postList[goodIndex].likes.length} ${"likes".tr}"),
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  ("${dataController.postList[goodIndex].likes.length} ${"likes".tr}"),
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width - 10,
+                                  child: Text(dataController
+                                      .postList[goodIndex].description
+                                      .toString()),
+                                )
+                              ],
                             ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Container(
-                              width: MediaQuery.of(context).size.width - 10,
-                              child: Text(dataController
-                                  .postList[goodIndex].description
-                                  .toString()),
-                            )
                           ],
                         ),
                         const SizedBox(

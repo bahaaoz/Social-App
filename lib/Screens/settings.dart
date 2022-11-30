@@ -6,7 +6,7 @@ import 'package:socialapp/Localization/localeController.dart';
 import 'package:socialapp/Theme/theme_controller.dart';
 
 class Setting extends StatefulWidget {
-  Setting({Key? key}) : super(key: key);
+  const Setting({Key? key}) : super(key: key);
 
   @override
   State<Setting> createState() => _SettingState();
@@ -37,7 +37,7 @@ class _SettingState extends State<Setting> {
                   context: context,
                   builder: (context) {
                     return Dialog(
-                      child: Container(
+                      child: SizedBox(
                         height: 200,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -95,7 +95,7 @@ class _SettingState extends State<Setting> {
                   context: context,
                   builder: (context) {
                     return Dialog(
-                      child: Container(
+                      child: SizedBox(
                         height: 200,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,

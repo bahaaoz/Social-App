@@ -16,6 +16,7 @@ dependencies:
   app_settings: ^4.1.8
   camera: ^0.10.0+4
   font_awesome_flutter: ^10.2.1
+  image_cropper: ^3.0.1
 
 dev_dependencies:
   flutter_test:

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_utils/get_utils.dart';
 import 'package:socialapp/AuthController/authController.dart';
+import 'package:socialapp/DataManagment/notificationManager.dart';
 
 class SignIn extends StatefulWidget {
-  SignIn({Key? key}) : super(key: key);
+  const SignIn({Key? key}) : super(key: key);
 
   @override
   State<SignIn> createState() => _SignInState();
@@ -13,6 +14,7 @@ class _SignInState extends State<SignIn> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final AuthController _authController = AuthController();
+  NotificationManager notificationManager = NotificationManager();
 
   String errortext = "";
   Color errorColor = Colors.red;
@@ -82,7 +84,10 @@ class _SignInState extends State<SignIn> {
                     setState(() {
                       errortext = "";
                     });
-                    Navigator.of(context).pushReplacementNamed("/home");
+                    await notificationManager.addNewTokenToUser();
+                    // ignore: use_build_context_synchronously
+                    Navigator.of(context)
+                        .pushReplacementNamed("/screenManager");
                   } else {
                     setState(() {
                       errortext = "email or password is wrong";

@@ -1,14 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:socialapp/AuthController/authController.dart';
-import 'package:socialapp/CustomMaterial/bottomNavbar.dart';
 import 'package:socialapp/DataManagment/dataControllerProfile.dart';
 
 class Profile extends StatefulWidget {
-  Profile({Key? key}) : super(key: key);
+  const Profile({Key? key}) : super(key: key);
 
   @override
   State<Profile> createState() => _ProfileState();
@@ -19,151 +17,147 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => DataControllerProfile(),
-      child: Scaffold(
-        drawer: Drawer(
-          child: SafeArea(
-              child: Column(
-            children: [
-              const SizedBox(
-                height: 20,
-              ),
-              MaterialButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed("/setting");
-                },
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.settings,
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      "Setting".tr,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const Spacer(),
-              MaterialButton(
-                onPressed: () async {
-                  await firebaseAuth.logout();
-                  // ignore: use_build_context_synchronously
-                  Navigator.of(context).pushReplacementNamed("/signin");
-                },
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.logout,
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      "Logout".tr,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-            ],
-          )),
-        ),
-        bottomNavigationBar: BottomNavbar(),
-        appBar: AppBar(
-          elevation: 0,
-        ),
-        body: Column(
+    return Scaffold(
+      drawer: Drawer(
+        child: SafeArea(
+            child: Column(
           children: [
             const SizedBox(
               height: 20,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                CircleAvatar(
-                  backgroundColor: Colors.red,
-                  radius: 50,
-                  backgroundImage: AssetImage(
-                    "assets/yoneheight.jpg",
+            MaterialButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed("/setting");
+              },
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.settings,
                   ),
-                )
-              ],
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    "Setting".tr,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Spacer(),
+            MaterialButton(
+              onPressed: () async {
+                await firebaseAuth.logout();
+                // ignore: use_build_context_synchronously
+                Navigator.of(context).pushReplacementNamed("/signin");
+              },
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.logout,
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    "Logout".tr,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    ),
+                  ),
+                ],
+              ),
             ),
             const SizedBox(
-              height: 10,
+              height: 20,
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                firebaseAuth.username!,
-                style: GoogleFonts.aBeeZee(
-                  textStyle: const TextStyle(
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "bio".tr,
-                style: GoogleFonts.aBeeZee(
-                  textStyle: const TextStyle(
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              color: Color.fromARGB(79, 158, 158, 158),
-              width: double.infinity,
-              height: 1,
-            ),
-            Expanded(
-              child: Consumer<DataControllerProfile>(
-                builder: (context, dataController, child) {
-                  return Container(
-                    margin: const EdgeInsets.only(
-                      top: 10,
-                    ),
-                    child: GridView.builder(
-                      itemCount: dataController.myPosts.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3),
-                      itemBuilder: (context, index) {
-                        return Container(
-                          margin: const EdgeInsets.all(1),
-                          child: Image.network(
-                            dataController.myPosts[index].imgPath!,
-                            fit: BoxFit.cover,
-                          ),
-                        );
-                      },
-                    ),
-                  );
-                },
-              ),
-            )
           ],
-        ),
+        )),
+      ),
+      appBar: AppBar(
+        elevation: 0,
+      ),
+      body: Column(
+        children: [
+          const SizedBox(
+            height: 20,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              CircleAvatar(
+                backgroundColor: Colors.red,
+                radius: 50,
+                backgroundImage: AssetImage(
+                  "assets/yoneheight.jpg",
+                ),
+              )
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              firebaseAuth.username!,
+              style: GoogleFonts.aBeeZee(
+                textStyle: const TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              "you you you you you you you you",
+              style: GoogleFonts.aBeeZee(
+                textStyle: const TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+            ),
+          ),
+          Container(
+            color: const Color.fromARGB(79, 158, 158, 158),
+            width: double.infinity,
+            height: 1,
+          ),
+          Expanded(
+            child: Consumer<DataControllerProfile>(
+              builder: (context, dataController, child) {
+                return Container(
+                  margin: const EdgeInsets.only(
+                    top: 10,
+                  ),
+                  child: GridView.builder(
+                    itemCount: dataController.myPosts.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3),
+                    itemBuilder: (context, index) {
+                      return Container(
+                        margin: const EdgeInsets.all(1),
+                        child: Image.network(
+                          dataController.myPosts[index].imgPath!,
+                          fit: BoxFit.cover,
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
+            ),
+          )
+        ],
       ),
     );
   }

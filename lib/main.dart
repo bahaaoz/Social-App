@@ -9,9 +9,11 @@ import 'package:socialapp/Localization/localeController.dart';
 import 'package:socialapp/Localization/myLocale.dart';
 import 'package:socialapp/Screens/home.dart';
 import 'package:socialapp/Screens/profile.dart';
+import 'package:socialapp/Screens/screenManager.dart';
 import 'package:socialapp/Screens/settings.dart';
 import 'package:provider/provider.dart';
 import 'package:socialapp/Screens/splash.dart';
+import 'package:socialapp/Screens/testScreen.dart';
 import 'package:socialapp/Screens/viewImageAfterTake.dart';
 import 'package:socialapp/Sign/sign.dart';
 
@@ -44,6 +46,9 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(
           create: (context) => DataController(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => DataControllerProfile(),
+        ),
       ],
       child: Consumer<ThemeController>(
         builder: (context, controller, child) {
@@ -51,8 +56,14 @@ class _MyAppState extends State<MyApp> {
           return GetMaterialApp(
             translations: MyLocale(),
             locale: local.initialLocale,
-            theme: controller.theme
+            theme: !controller.theme
                 ? ThemeData(
+                    floatingActionButtonTheme:
+                        const FloatingActionButtonThemeData(
+                      backgroundColor: Colors.white,
+                      elevation: 10,
+                      foregroundColor: Colors.black,
+                    ),
                     tabBarTheme: TabBarTheme(
                       labelColor: Colors.white,
                       labelStyle: GoogleFonts.roboto(
@@ -89,6 +100,11 @@ class _MyAppState extends State<MyApp> {
                     ),
                   )
                 : ThemeData(
+                    floatingActionButtonTheme:
+                        const FloatingActionButtonThemeData(
+                      backgroundColor: Colors.blue,
+                      foregroundColor: Colors.white,
+                    ),
                     tabBarTheme: TabBarTheme(
                       labelColor: Colors.black,
                       labelStyle: GoogleFonts.roboto(
@@ -123,11 +139,12 @@ class _MyAppState extends State<MyApp> {
                   ),
             debugShowCheckedModeBanner: false,
             routes: {
-              "/home": (context) => Home(),
-              "/profile": (context) => Profile(),
-              "/setting": (context) => Setting(),
-              "/signin": (context) => Sign(),
-              "/viewImage": (context) => ViewImageAfterTake(),
+              "/home": (context) => const Home(),
+              "/profile": (context) => const Profile(),
+              "/setting": (context) => const Setting(),
+              "/signin": (context) => const Sign(),
+              "/viewImage": (context) => const ViewImageAfterTake(),
+              "/screenManager": (context) => const ScreenManager(),
             },
             title: "Social App",
             home: const Splash(),
