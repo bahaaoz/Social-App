@@ -3,7 +3,7 @@ import 'package:get/get_utils/get_utils.dart';
 import 'package:socialapp/AuthController/authController.dart';
 
 class SignUp extends StatefulWidget {
-  SignUp({Key? key}) : super(key: key);
+  const SignUp({Key? key}) : super(key: key);
 
   @override
   State<SignUp> createState() => _SignUpState();
@@ -218,7 +218,7 @@ class _SignUpState extends State<SignUp> {
             decoration: BoxDecoration(
               color: check
                   ? const Color.fromARGB(255, 196, 255, 227)
-                  : Color.fromARGB(255, 247, 135, 127),
+                  : const Color.fromARGB(255, 247, 135, 127),
               borderRadius: const BorderRadius.all(
                 Radius.circular(
                   10,
@@ -231,8 +231,8 @@ class _SignUpState extends State<SignUp> {
                   check ? Icons.check : Icons.close,
                   size: 20,
                   color: check
-                      ? Color.fromARGB(255, 4, 169, 9)
-                      : Color.fromARGB(255, 255, 17, 0),
+                      ? const Color.fromARGB(255, 4, 169, 9)
+                      : const Color.fromARGB(255, 255, 17, 0),
                 ),
                 const SizedBox(
                   width: 4,
@@ -241,8 +241,8 @@ class _SignUpState extends State<SignUp> {
                   checkType,
                   style: TextStyle(
                     color: check
-                        ? Color.fromARGB(255, 20, 204, 29)
-                        : Color.fromARGB(255, 240, 27, 12),
+                        ? const Color.fromARGB(255, 20, 204, 29)
+                        : const Color.fromARGB(255, 240, 27, 12),
                   ),
                 ),
               ],

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_utils/get_utils.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:socialapp/Sign/signin.dart';
 import 'package:socialapp/Sign/signup.dart';
 
 class Sign extends StatefulWidget {
-  Sign({Key? key}) : super(key: key);
+  const Sign({Key? key}) : super(key: key);
 
   @override
   State<Sign> createState() => _SignState();
@@ -56,7 +55,7 @@ class _SignState extends State<Sign> with TickerProviderStateMixin {
                 flex: 30,
                 child: TabBarView(
                   controller: _tabController,
-                  children: [
+                  children: const [
                     SignIn(),
                     SignUp(),
                   ],

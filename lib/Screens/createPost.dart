@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +19,6 @@ class _CreatePostState extends State<CreatePost> {
   File file;
   _CreatePostState({required this.file});
   UploadTask? uploadTask;
-  TextEditingController description = TextEditingController();
   bool prograss = false;
   FirebaseManager firebaseManager = FirebaseManager();
 
@@ -69,20 +67,6 @@ class _CreatePostState extends State<CreatePost> {
                   color: Color.fromARGB(91, 158, 158, 158),
                 ),
               ),
-              Container(
-                margin: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                ),
-                child: TextField(
-                  maxLines: 4,
-                  minLines: 2,
-                  controller: description,
-                  decoration: const InputDecoration(
-                    floatingLabelAlignment: FloatingLabelAlignment.start,
-                    label: Text("Write your Comment here"),
-                  ),
-                ),
-              ),
             ],
           ),
           prograss
@@ -111,14 +95,13 @@ class _CreatePostState extends State<CreatePost> {
     );
   }
 
-  var uuid = Uuid();
+  var uuid = const Uuid();
   Future<void> uploudPost() async {
     try {
       setState(() {
         prograss = true;
       });
       String name = basename(file.path);
-      print(name);
       List<String> str = name.split(".");
 
       var response = FirebaseStorage.instance
@@ -127,10 +110,9 @@ class _CreatePostState extends State<CreatePost> {
       setState(() {
         uploadTask = response.putFile(file);
       });
-      print("bahaaaaa");
       await uploadTask!.whenComplete(() {});
       String urlDownload = await response.getDownloadURL();
-      await firebaseManager.addNewPost(urlDownload, description.text);
+      // await firebaseManager.addNewPost(urlDownload, description.text);
       setState(() {
         prograss = false;
       });

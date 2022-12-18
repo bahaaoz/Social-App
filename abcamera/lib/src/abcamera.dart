@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:photo_gallery/photo_gallery.dart';
+import 'package:image_cropper/image_cropper.dart';
 
 typedef OnTakePhoto = Widget? Function(File photoFile);
 typedef OnSelectPhoto = Widget? Function(File photoFile);
@@ -57,7 +58,7 @@ class _ABCameraState extends State<ABCamera> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body: SizedBox(
         height: MediaQuery.of(context).size.height,
         child: Stack(
           alignment: Alignment.center,
@@ -98,14 +99,17 @@ class _ABCameraState extends State<ABCamera> {
                   onPressed: () async {
                     cameraController!.setFlashMode(FlashMode.off);
                     takePhoto = await cameraController!.takePicture();
-                    capturedImage(File(takePhoto!.path));
+                    CroppedFile? croppedFile =
+                        await croppedFileMethod(takePhoto!.path);
+
+                    capturedImage(File(croppedFile!.path));
                   },
                 ),
               ),
             ),
             Positioned(
               top: 35,
-              right: 30,
+              left: 30,
               child: IconButton(
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -123,6 +127,9 @@ class _ABCameraState extends State<ABCamera> {
                 onPressed: () async {
                   takePhoto =
                       await imagePicker.pickImage(source: ImageSource.gallery);
+                  CroppedFile? croppedFile =
+                      await croppedFileMethod(takePhoto!.path);
+                  selectedIamge(File(croppedFile!.path));
                 },
                 icon: const Icon(
                   FontAwesomeIcons.image,
@@ -171,9 +178,13 @@ class _ABCameraState extends State<ABCamera> {
                                 fit: BoxFit.cover,
                               ),
                             ),
-                            onTap: () {
+                            onTap: () async {
                               File f = allFiles[index];
-                              selectedIamge(f);
+
+                              CroppedFile? croppedFile =
+                                  await croppedFileMethod(f.path);
+
+                              selectedIamge(File(croppedFile!.path));
                             },
                           );
                         },
@@ -185,6 +196,36 @@ class _ABCameraState extends State<ABCamera> {
         ),
       ),
     );
+  }
+
+  Future<CroppedFile?> croppedFileMethod(String path) async {
+    CroppedFile? croppedFile = await ImageCropper().cropImage(
+      sourcePath: path,
+      aspectRatioPresets: [
+        CropAspectRatioPreset.square,
+        CropAspectRatioPreset.ratio3x2,
+        CropAspectRatioPreset.original,
+        CropAspectRatioPreset.ratio4x3,
+        CropAspectRatioPreset.ratio16x9
+      ],
+      uiSettings: [
+        AndroidUiSettings(
+            activeControlsWidgetColor: Colors.blue,
+            toolbarTitle: 'Edit Size',
+            toolbarColor: Colors.blue,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        IOSUiSettings(
+          title: 'Edit Size',
+        ),
+        // ignore: use_build_context_synchronously
+        WebUiSettings(
+          context: context,
+        ),
+      ],
+    );
+    return croppedFile;
   }
 
   readGallary() async {

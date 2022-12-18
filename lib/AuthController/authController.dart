@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:socialapp/main.dart';
-
+ 
 class AuthController {
   FirebaseAuth? firebaseAuth;
   AuthController() {
@@ -16,7 +15,6 @@ class AuthController {
   Future<bool> checkSignIn() async {
     try {
       await firebaseAuth!.currentUser!.reload();
-      print(firebaseAuth!.currentUser!.displayName);
       return true;
     } catch (e) {
       return false;
@@ -46,4 +44,6 @@ class AuthController {
       return false;
     }
   }
+
+
 }
