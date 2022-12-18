@@ -21,11 +21,40 @@ class FirebaseManager {
     });
   }
 
-  Future<List<Post>> readPosts() async {
-    var response = await firebaseFirestore
+  Future<Post> readOnePost(String postId) async {
+    var response =
+        await firebaseFirestore.collection("posts").doc(postId).get();
+    Post p = Post(
+      postID: response.id,
+      name: response.get("name"),
+      isLike: false,
+      description: response.get("description"),
+      imgPath: response.get("path"),
+      uid: response.get("uid"),
+      shareTime: DateTime.fromMicrosecondsSinceEpoch(
+        response.get("sharetime").millisecondsSinceEpoch,
+      ),
+    );
+    var temp = await firebaseFirestore
         .collection("posts")
-        .orderBy("sharetime", descending: true)
+        .doc(p.postID)
+        .collection("likes")
         .get();
+
+    for (var t in temp.docs) {
+      p.likes[t.id] = true;
+    }
+
+    if (p.likes[authController.uid] == true) {
+      p.isLike = true;
+    }
+
+    return p;
+  }
+
+  Future<List<Post>> readPosts() async {
+    var response = await firebaseFirestore.collection("posts").get();
+
     List<Post> list = [];
     for (var x in response.docs) {
       Post p = Post(
@@ -56,6 +85,7 @@ class FirebaseManager {
       list.add(p);
     }
 
+    list.shuffle();
     return list;
   }
 
@@ -69,7 +99,7 @@ class FirebaseManager {
       "islike": true,
     });
 
-    await reReadPost(post);
+    await reReadSpecificPost(post);
   }
 
   Future<void> removeLike(Post post) async {
@@ -80,10 +110,20 @@ class FirebaseManager {
         .doc(authController.uid)
         .delete();
 
-    await reReadPost(post);
+    await reReadSpecificPost(post);
   }
 
-  Future<void> reReadPost(Post post) async {
+  // this.isLike,
+  // this.postID,
+  // this.uid,
+  // likes,
+  // this.imgPath,
+  // this.comments,
+  // this.description,
+  // this.name,
+  // this.shareTime,
+
+  Future<void> reReadSpecificPost(Post post) async {
     var response =
         await firebaseFirestore.collection("posts").doc(post.postID).get();
 
@@ -148,7 +188,7 @@ class FirebaseManager {
   //notification
 
   Future<void> sendNotification(String title, String body, String to) async {
-     String serverToken =
+    String serverToken =
         "AAAALkhvyeU:APA91bEx51B_w5PnEyhyiVcNohxw1wICnc0MjBSxn91bhVXes06GhEsJGhCA8y04HoLwR7fXCFWMXgHC3K5sWsA4q9Sug9Xnnz4Y_GwG8Wu_RE_DDVFofBQD7wJmKqaR6dtwgzK28R8a";
     await http.post(
       Uri.parse('https://fcm.googleapis.com/fcm/send'),

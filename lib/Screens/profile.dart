@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pay/pay.dart';
 import 'package:provider/provider.dart';
 import 'package:socialapp/AuthController/authController.dart';
 import 'package:socialapp/DataManagment/dataControllerProfile.dart';
@@ -14,6 +15,22 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   final AuthController firebaseAuth = AuthController();
+
+  List<PaymentItem> get paymentItem {
+    return const [
+      PaymentItem(
+        amount: "1.99",
+        label: "BAHAA",
+        status: PaymentItemStatus.final_price,
+      ),
+    ];
+  }
+
+  void onGooglePayResult(paymentResult) {
+    debugPrint(paymentResult.toString());
+
+    Get.snackbar("wow", "bahaa");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +65,16 @@ class _ProfileState extends State<Profile> {
               ),
             ),
             const Spacer(),
+            GooglePayButton(
+              type: GooglePayButtonType.pay,
+              paymentConfigurationAsset:
+                  "default_payment_profile_google_pay.json",
+              onPaymentResult: onGooglePayResult,
+              paymentItems: paymentItem,
+              loadingIndicator: const Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
             MaterialButton(
               onPressed: () async {
                 await firebaseAuth.logout();

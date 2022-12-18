@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socialapp/DataManagment/dataController.dart';
 import 'package:socialapp/DataManagment/dataControllerProfile.dart';
+import 'package:socialapp/DynamicLink/dynamicLinkController.dart';
 import 'package:socialapp/Localization/localeController.dart';
 import 'package:socialapp/Localization/myLocale.dart';
 import 'package:socialapp/Screens/home.dart';
@@ -13,7 +14,6 @@ import 'package:socialapp/Screens/screenManager.dart';
 import 'package:socialapp/Screens/settings.dart';
 import 'package:provider/provider.dart';
 import 'package:socialapp/Screens/splash.dart';
-import 'package:socialapp/Screens/testScreen.dart';
 import 'package:socialapp/Screens/viewImageAfterTake.dart';
 import 'package:socialapp/Sign/sign.dart';
 
@@ -23,10 +23,12 @@ SharedPreferences? sharedPreferences;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
   sharedPreferences = await SharedPreferences.getInstance();
 
   runApp(const MyApp());
 }
+//fK-6trZ-RLuiJTFsKyx6qt:APA91bEwYr3bLamx-aHPim1LUPONZT9NA-qWgdaQYPMi9tOa-wCnbfM_ANCNp612jK-iq3L67vml37OWxbuNOOQfHO7nyhbm3QNKEguYG5aIcb_rBCWeUU59FqH-T4Nxn1Y8ZUN2AkVa
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -56,7 +58,7 @@ class _MyAppState extends State<MyApp> {
           return GetMaterialApp(
             translations: MyLocale(),
             locale: local.initialLocale,
-            theme: !controller.theme
+            theme: controller.theme
                 ? ThemeData(
                     floatingActionButtonTheme:
                         const FloatingActionButtonThemeData(

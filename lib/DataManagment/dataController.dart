@@ -17,7 +17,7 @@ class DataController extends ChangeNotifier {
   int get size => postList.length;
 
   Future<void> loadPosts() async {
-    List<Post> tempList = await firebaseManager.readPosts();
+    List<Post> tempList = await firebaseManager.readPosts( );
 
     postList.addAll(tempList);
 

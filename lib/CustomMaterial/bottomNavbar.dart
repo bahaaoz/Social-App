@@ -1,7 +1,7 @@
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
+import '../DynamicLink/dynamicLinkController.dart';
 
 List<CameraDescription> cameraDis = [];
 
@@ -37,7 +37,8 @@ class BottomNavbar extends StatelessWidget {
             Icons.notifications,
             size: 25,
           ),
-          onPressed: () {},
+          onPressed: ()   {
+           },
         ),
         IconButton(
           icon: const Icon(

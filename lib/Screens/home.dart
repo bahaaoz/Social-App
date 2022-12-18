@@ -1,10 +1,15 @@
-
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:socialapp/AuthController/authController.dart';
 import 'package:socialapp/DataManagment/dataController.dart';
+import 'package:socialapp/DynamicLink/dynamicLinkController.dart';
+import 'package:socialapp/Screens/profile.dart';
+import 'package:uni_links/uni_links.dart';
+import 'package:flutter_share/flutter_share.dart';
 
 import '../CustomMaterial/top_appbar.dart';
 
@@ -17,6 +22,12 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   AuthController authController = AuthController();
+
+  @override
+  void initState() {
+    super.initState();
+    DynamicLinkController().initDynamicLink(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +90,17 @@ class _HomeState extends State<Home> {
                             ),
                             const Spacer(),
                             IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  print("bahaa");
+                                  DynamicLinkController()
+                                      .createLink(dataController
+                                          .postList[goodIndex].postID
+                                          .toString())
+                                      .then((value) {
+                                    FlutterShare.share(
+                                        title: "social", linkUrl: value);
+                                  });
+                                },
                                 icon: const Icon(
                                   FontAwesomeIcons.ellipsisVertical,
                                 ))
